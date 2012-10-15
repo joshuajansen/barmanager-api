@@ -17,5 +17,5 @@ class Bar < ActiveRecord::Base
     end
   end
   
-  after_validation :reverse_geocode
+  before_validation :reverse_geocode
 end
