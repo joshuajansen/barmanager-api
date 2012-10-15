@@ -7,6 +7,9 @@ gem 'rails', '3.2.8'
 
 gem 'devise'
 gem 'omniauth-facebook'
+gem 'geocoder'
+gem 'gmaps4rails'
+gem 'turbolinks'
 
 group :production do
   gem 'pg'

@@ -1,1 +1,13 @@
-=current_user.inspect
+- if current_user && !current_user.bars.nil?
+  
+  - current_user.bars.each do |bar|
+    =bar.city
+- else
+  .welcome_new_bar
+    %p
+      <iframe width="640" height="480" src="http://www.youtube.com/embed/C8t3AS36O-k?rel=0" frameborder="0" allowfullscreen></iframe>  
+    .lead
+      The name of our bar, will be:
+      = form_for @bar do |f|
+        = f.text_field :name
+        = f.submit "Let's go!", :class => "open_a_bar btn btn-large btn-info"

@@ -23,7 +23,7 @@
         .container
           .pull-right
             - unless current_user
-              = link_to user_omniauth_authorize_path(:facebook), :class => "btn btn-info" do
+              = link_to user_omniauth_authorize_path(:facebook), :class => "btn btn-info", :"data-no-turbolink" => "true" do
                 %i.icon-facebook
                 Inloggen met Facebook
             - else

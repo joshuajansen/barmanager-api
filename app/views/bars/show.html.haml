@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @bar.name
+%p
+  %b User:
+  = @bar.user_id
+%p
+  %b Latitude:
+  = @bar.latitude
+%p
+  %b Longitude:
+  = @bar.longitude
+
+= link_to 'Edit', edit_bar_path(@bar)
+\|
+= link_to 'Back', bars_path
