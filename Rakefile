@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Geobar::Application.load_tasks
+Barmanager::Application.load_tasks
