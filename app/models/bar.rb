@@ -6,7 +6,8 @@ class Bar < ActiveRecord::Base
   validates :latitude, :presence => true
   validates :longitude, :presence => true
   validates :name, :presence => true
-
+  validates :city, :presence => true, :uniqueness => {:scope => :user_id}
+  
   validates_associated :user
 
   reverse_geocoded_by :latitude, :longitude do |obj,results|

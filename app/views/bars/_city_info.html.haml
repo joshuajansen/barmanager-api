@@ -1,0 +1,28 @@
+.city_info
+  %h1
+    =@location[0].address_components[1]["long_name"]
+    .btn.refresh_location
+      %i.icon-refresh
+  .well
+    .city_info_box
+      .city_info_title
+        Inwoners
+      .city_info_icon
+        %i.icon-group
+      .city_info_number
+        123.000
+    .city_info_box
+      .city_info_title
+        Omzet
+      .city_info_icon
+        %i.icon-money
+      .city_info_number
+        =number_to_currency(5000000)
+    .city_info_box.last
+      .city_info_title
+        Aantal Bars
+      .city_info_icon
+        %i.icon-info-sign
+      .city_info_number
+        4/5
+    .clearfix

@@ -2,10 +2,10 @@ class BarsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @bars = Bar.all
+    @bars = current_user.bars.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @bars }
     end
   end
@@ -21,10 +21,15 @@ class BarsController < ApplicationController
 
   def new
     @bar = Bar.new
+    @location = Geocoder.search("#{params[:lat]},#{params[:lng]}")
+
+    session[:latitude] = params[:lat]
+    session[:longitude] = params[:lng]
 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @bar }
+      format.js
     end
   end
 
@@ -35,9 +40,8 @@ class BarsController < ApplicationController
   def create
     @bar = Bar.new(params[:bar])
     @bar.user = current_user 
-    @bar.name = params[:name]
-    @bar.longitude = params[:lng]
-    @bar.latitude = params[:lat]
+    @bar.latitude = session[:latitude]
+    @bar.longitude = session[:longitude]
 
     respond_to do |format|
       if @bar.save
@@ -45,7 +49,10 @@ class BarsController < ApplicationController
         format.json { render json: @bar, status: :created, location: @bar }
         format.js
       else
-        format.html { render action: "new" }
+        format.html {
+          flash[:error] = "Er is een fout opgetreden, je hebt op je huidige locatie al een bar geopend."
+          render action: "new"
+        }
         format.json { render json: @bar.errors, status: :unprocessable_entity }
         format.js
       end

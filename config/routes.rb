@@ -1,6 +1,5 @@
 Barmanager::Application.routes.draw do
   resources :bars
-  match "/open_bar", :to => "bars#create"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
 

@@ -1,5 +1,14 @@
-%h1 New bar
+.new_bar.row
+  .span8
+    .content
+      .new_bar_title Start nu je eigen bar!
+      .lead Al meer dan 3,5 miljoen mensen gingen je voor!
+      .location_info
+  .span4
+    .content
+      .new_bar_title Naam van je bar!
+      = form_for @bar do |f|
+        %div.control-group{:class => ( @bar.errors.any? ? "error" : "") }
+          = f.text_field :name, :placeholder => "The Royal Bar"
 
-= render 'form'
-
-= link_to 'Back', bars_path
+        = f.submit "Maak je bar aan!", :class => 'btn'

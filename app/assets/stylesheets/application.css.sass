@@ -1,0 +1,27 @@
+//= require_tree .
+//= require_self
+
+@import url(http://fonts.googleapis.com/css?family=Lobster)
+
+html
+  background: #000 url(bar.jpeg) no-repeat center center fixed
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  -o-background-size: cover
+  background-size: cover
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='bar.jpg', sizingMethod='scale')
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='bar.jpg', sizingMethod='scale')"
+body
+  background: none
+  .content
+    margin: 30px
+  .container
+    background: white
+    .content
+      .new_bar_title
+        font-family: 'Lobster', cursive
+        font-size: 30px
+        margin-top: 20px
+        margin-bottom: 20px
+      .new_bar_video
+        width: 400px

@@ -1,8 +1,4 @@
-- if current_user && !current_user.bars.nil?
-  
-  - current_user.bars.each do |bar|
-    =bar.city
-- else
+- if current_user && current_user.bars.nil?
   .welcome_new_bar
     %p
       <iframe width="640" height="480" src="http://www.youtube.com/embed/C8t3AS36O-k?rel=0" frameborder="0" allowfullscreen></iframe>  
