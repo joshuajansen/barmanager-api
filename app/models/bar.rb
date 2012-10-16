@@ -20,7 +20,7 @@ class Bar < ActiveRecord::Base
     if city
       self.city = city
     else
-      self.city = City.create!(:name => bar_city.city, :country => bar_city.country_code)
+      self.city = City.create!(:name => bar_city.city, :country => bar_city.country_code, :population => rand(4500..7500))
     end
   end
 end
