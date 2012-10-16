@@ -2,7 +2,7 @@ Barmanager::Application.routes.draw do
   resources :bars
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
-
+  match 'api/xmlrpc' => 'api#xe_index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
