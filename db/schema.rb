@@ -11,17 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121016123302) do
+ActiveRecord::Schema.define(:version => 20121017114703) do
+
+  create_table "bar_expansions", :force => true do |t|
+    t.integer  "bar_id"
+    t.integer  "expansion_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "bar_features", :force => true do |t|
+    t.integer  "bar_id"
+    t.integer  "feature_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "bars", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
     t.string   "country"
     t.integer  "city_id"
+    t.integer  "capacity",   :default => 100
   end
 
   create_table "cities", :force => true do |t|
@@ -30,6 +45,38 @@ ActiveRecord::Schema.define(:version => 20121016123302) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "country"
+  end
+
+  create_table "expansions", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.float    "investment"
+    t.float    "revenue"
+    t.integer  "profit"
+    t.integer  "popularity"
+    t.integer  "max_use"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.float    "consumption", :default => 0.1
+  end
+
+  create_table "features", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.float    "investment"
+    t.integer  "popularity"
+    t.integer  "duration"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "sells", :force => true do |t|
+    t.integer  "bar_expansions_id"
+    t.integer  "amount"
+    t.float    "revenue"
+    t.float    "profit"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "users", :force => true do |t|

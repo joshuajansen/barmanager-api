@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  bars_expansions_id: 1
+  amount: 1
+  revenue: 1.5
+  profit: 1.5
+
+two:
+  bars_expansions_id: 1
+  amount: 1
+  revenue: 1.5
+  profit: 1.5

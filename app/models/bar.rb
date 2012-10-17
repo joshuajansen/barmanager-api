@@ -4,6 +4,12 @@ class Bar < ActiveRecord::Base
   belongs_to :user
   belongs_to :city
 
+  has_many :bar_expansions
+  has_many :bar_features
+  has_many :expansions, :through => :bar_expansions
+  has_many :features, :through => :bar_features
+  has_many :sells, :through => :bar_expansions
+
   validates :latitude, :presence => true
   validates :longitude, :presence => true
   validates :name, :presence => true
@@ -21,6 +27,38 @@ class Bar < ActiveRecord::Base
       self.city = city
     else
       self.city = City.create!(:name => bar_city.city, :country => bar_city.country_code, :population => rand(4500..7500))
+    end
+  end
+
+  def popularity
+    total = self.expansions.sum(&:popularity)
+    self.bar_features.each do |bar_feature|
+      if bar_feature.active
+        total += bar_feature.feature.popularity
+      end
+    end
+    total
+  end
+
+  def potential_visitors
+    (self.city.population * 0.04).round(0) * (self.city_popularity / 100)
+  end
+
+  def daily_visitors
+    if potential_visitors < self.capacity
+      potential_visitors
+    else
+      self.capacity
+    end
+  end
+
+  def city_popularity
+    total_popularity = self.city.bars.sum(&:popularity).to_f
+
+    if self.popularity == 0 or total_popularity == 0
+      return 0
+    else
+      return ( self.popularity.to_f / total_popularity * 100 )
     end
   end
 end

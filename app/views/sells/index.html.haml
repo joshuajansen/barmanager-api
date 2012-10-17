@@ -1,0 +1,16 @@
+.content
+  - @bars.each do |bar|
+    %h1=bar.name
+    .lead Expansions
+    %table.table
+      %thead
+        %tr
+          %th Naam
+          %th Omzet
+          %th Winst
+      %tbody
+        - bar.bar_expansions.each do |bar_expansion|
+          %tr
+            %td=bar_expansion.expansion.name
+            %td=number_to_currency(bar_expansion.revenue)
+            %td=number_to_currency(bar_expansion.profit)
