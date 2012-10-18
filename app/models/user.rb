@@ -3,13 +3,14 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :provider, :uid
   # attr_accessible :title, :body
 
   has_many :bars
+  has_many :bank_transactions
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -33,5 +34,9 @@ class User < ActiveRecord::Base
         user.email = data["email"] if user.email.blank?
       end
     end
+  end
+
+  def balance
+    self.bank_transactions.sum(&:amount)
   end
 end

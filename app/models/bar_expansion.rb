@@ -4,8 +4,13 @@ class BarExpansion < ActiveRecord::Base
   belongs_to :bar
   belongs_to :expansion
 
+
+  def amount
+    bar.daily_visitors * expansion.consumption
+  end
+
   def revenue
-    bar.daily_visitors * expansion.consumption * expansion.revenue
+    self.amount * expansion.revenue
   end
 
   def profit

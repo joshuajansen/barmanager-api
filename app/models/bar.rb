@@ -6,9 +6,12 @@ class Bar < ActiveRecord::Base
 
   has_many :bar_expansions
   has_many :bar_features
+  has_many :bar_enlargements
   has_many :expansions, :through => :bar_expansions
   has_many :features, :through => :bar_features
+  has_many :enlargements, :through => :bar_enlargements
   has_many :sells, :through => :bar_expansions
+  has_many :bank_transactions
 
   validates :latitude, :presence => true
   validates :longitude, :presence => true
@@ -41,7 +44,7 @@ class Bar < ActiveRecord::Base
   end
 
   def potential_visitors
-    (self.city.population * 0.04).round(0) * (self.city_popularity / 100)
+    (self.city.population * 0.02).round(0) * (self.city_popularity / 100)
   end
 
   def daily_visitors
@@ -60,5 +63,9 @@ class Bar < ActiveRecord::Base
     else
       return ( self.popularity.to_f / total_popularity * 100 )
     end
+  end
+
+  def capacity
+    read_attribute(:capacity) + self.enlargements.sum(&:capacity)
   end
 end

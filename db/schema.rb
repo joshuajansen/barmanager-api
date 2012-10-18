@@ -11,7 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121017114703) do
+ActiveRecord::Schema.define(:version => 20121018104314) do
+
+  create_table "bank_transactions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "bar_id"
+    t.string   "description"
+    t.float    "amount"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "bar_enlargements", :force => true do |t|
+    t.integer  "bar_id"
+    t.integer  "enlargement_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "bar_expansions", :force => true do |t|
     t.integer  "bar_id"
@@ -47,6 +63,15 @@ ActiveRecord::Schema.define(:version => 20121017114703) do
     t.string   "country"
   end
 
+  create_table "enlargements", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.float    "investment"
+    t.integer  "capacity"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "expansions", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -71,12 +96,13 @@ ActiveRecord::Schema.define(:version => 20121017114703) do
   end
 
   create_table "sells", :force => true do |t|
-    t.integer  "bar_expansions_id"
+    t.integer  "bar_expansion_id"
     t.integer  "amount"
     t.float    "revenue"
     t.float    "profit"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.date     "date"
   end
 
   create_table "users", :force => true do |t|
@@ -95,6 +121,7 @@ ActiveRecord::Schema.define(:version => 20121017114703) do
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
+    t.string   "authentication_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

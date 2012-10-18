@@ -1,43 +1,42 @@
-.content
-  %h1="Bar #{@bar.name}"
-  %table.table
-    %thead
+%h1="Bar #{@bar.name}"
+%table.table
+  %thead
+    %tr
+      %th Locatie
+      %th Populariteit
+      %th Stad percentage populariteit
+      %th Capaciteit
+      %th Dagelijkse bezoekers
+  %tbody
+    %tr
+      %td=@bar.city.name
+      %td=@bar.popularity
+      %td=@bar.city_popularity
+      %td=@bar.capacity
+      %td="#{@bar.daily_visitors} potentieel: #{@bar.potential_visitors.round(0)}"
+%hr
+%h2 Features:
+%table.table
+  %thead
+    %tr
+      %th Feature
+      %th Actief
+  %tbody
+    - @bar.bar_features.each do |bar_feature|
       %tr
-        %th Locatie
-        %th Populariteit
-        %th Stad percentage populariteit
-        %th Capaciteit
-        %th Dagelijkse bezoekers
-    %tbody
-      %tr
-        %td=@bar.city.name
-        %td=@bar.popularity
-        %td=@bar.city_popularity
-        %td=@bar.capacity
-        %td="#{@bar.daily_visitors} potentieel: #{@bar.potential_visitors.round(0)}"
-  %hr
-  %h2 Features:
-  %table.table
-    %thead
-      %tr
-        %th Feature
-        %th Actief
-    %tbody
-      - @bar.bar_features.each do |bar_feature|
-        %tr
-          %td=bar_feature.feature.name
-          %td
-            - if bar_feature.active
-              Ja
-            - else 
-              Nee
+        %td=bar_feature.feature.name
+        %td
+          - if bar_feature.active
+            Ja
+          - else 
+            Nee
 
-  %h2 Expansions:
-  %table.table
-    %thead
+%h2 Expansions:
+%table.table
+  %thead
+    %tr
+      %th Expansion
+  %tbody
+    - @bar.expansions.each do |expansion|
       %tr
-        %th Expansion
-    %tbody
-      - @bar.expansions.each do |expansion|
-        %tr
-          %td=expansion.name
+        %td=expansion.name

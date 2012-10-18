@@ -1,0 +1,18 @@
+%table.table
+  %thead
+    %tr
+      %td Datum
+      %th Bar
+      %th Omschrijving
+      %th Prijs
+  %tbody
+    -current_user.bank_transactions.each do |bank_transaction| 
+      %tr
+        %td=bank_transaction.created_at
+        %td=bank_transaction.bar_name
+        %td=bank_transaction.description
+        %td=number_to_currency(bank_transaction.amount)
+  %tfoot
+    %tr{:style => "font-weight:bold;"}
+      %td{:colspan=>3} Totaal:
+      %td=number_to_currency(current_user.balance)

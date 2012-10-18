@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  investment: 1.5
+  capacity: 1
+
+two:
+  name: MyString
+  description: MyText
+  investment: 1.5
+  capacity: 1
