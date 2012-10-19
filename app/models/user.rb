@@ -6,11 +6,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :provider, :uid
-  # attr_accessible :title, :body
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :provider, :uid, :balance
 
   has_many :bars
   has_many :bank_transactions
+
+  after_create :add_own_money
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -28,6 +29,11 @@ class User < ActiveRecord::Base
     user
   end
 
+  def update_balance
+    self.balance = bank_transactions.sum(&:amount).to_f
+    self.save!
+  end
+
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
@@ -36,7 +42,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def balance
-    self.bank_transactions.sum(&:amount)
+  def add_own_money
+    BankTransaction.create!(:amount => 1000, :description => "Eigen vermogen ingebracht.", :user_id => self.id)
   end
 end
