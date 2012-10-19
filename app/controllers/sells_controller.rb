@@ -29,6 +29,7 @@ class SellsController < ApplicationController
         BankTransaction.create!( :user_id => bar.user_id, :bar_id => bar.id, :description => "Resultaat voor bar #{bar.name}", :amount => profit )
       end
 
+      bar.user.update_balance
     end
 
     render :text => "Verwerkt"
