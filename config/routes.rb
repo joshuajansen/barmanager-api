@@ -9,9 +9,9 @@ Barmanager::Application.routes.draw do
   resources :bank_transactions
 
   namespace :api do
-    get 'list_bars'
-    get 'user'
-    post 'get_bars_for_location'
+    get 'bars'
+    get 'users'
+    post 'cities'
   end
 
   # The priority is based upon order of creation:

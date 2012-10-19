@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
   before_filter :authenticate_user!
 
-  def list_bars
+  def bars
     bars = current_user.bars
 
     respond_to do |format|
@@ -10,7 +10,7 @@ class ApiController < ApplicationController
     end
   end
 
-  def get_bars_for_location
+  def cities
     lat = params[:latitude].to_f
     lng = params[:longitude].to_f
 
@@ -36,12 +36,10 @@ class ApiController < ApplicationController
     end
   end
 
-  def user
-    user = current_user
-    
+  def users    
     respond_to do |format|
-      format.json { render json: user }
-      format.xml { render xml: user }
+      format.json { render json: current_user }
+      format.xml { render xml: current_user }
     end
-  end
+  endz
 end
