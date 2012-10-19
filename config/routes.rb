@@ -11,6 +11,7 @@ Barmanager::Application.routes.draw do
   namespace :api do
     get 'list_bars'
     get 'user'
+    post 'get_bars_for_location'
   end
 
   # The priority is based upon order of creation:
