@@ -41,5 +41,5 @@ class ApiController < ApplicationController
       format.json { render json: current_user }
       format.xml { render xml: current_user }
     end
-  endz
+  end
 end
