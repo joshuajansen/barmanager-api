@@ -3,13 +3,15 @@ Barmanager::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
 
   match 'sells/process_sells' => "sells#process_sells"
-  match 'api/xmlrpc' => 'api#xe_index'
 
   resources :bars
   resources :sells
   resources :bank_transactions
 
-
+  namespace :api do
+    get 'list_bars'
+    get 'user'
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

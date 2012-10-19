@@ -10,7 +10,6 @@ gem 'devise'
 gem 'omniauth-facebook'
 gem 'geocoder'
 gem 'turbolinks'
-gem "rails-xmlrpc"
 
 group :production do
   gem 'pg'

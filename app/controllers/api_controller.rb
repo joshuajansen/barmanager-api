@@ -1,15 +1,21 @@
 class ApiController < ApplicationController
-  exposes_xmlrpc_methods :method_prefix => "barmanager."
-
   before_filter :authenticate_user!
 
-  def listBars
+  def list_bars
     bars = current_user.bars
 
-    if bars
-      return bars.to_xml
-    else
-      return "No Bars Found"
+    respond_to do |format|
+      format.json { render json: bars.to_json(:include => :city) }
+      format.xml { render xml: bars.to_xml(:include => :city) }
+    end
+  end
+
+  def user
+    user = current_user
+    
+    respond_to do |format|
+      format.json { render json: user }
+      format.xml { render xml: user }
     end
   end
 end
