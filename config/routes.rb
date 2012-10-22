@@ -12,6 +12,7 @@ Barmanager::Application.routes.draw do
     get 'bars'
     get 'users'
     post 'cities'
+    post 'request_token'
   end
 
   # The priority is based upon order of creation:

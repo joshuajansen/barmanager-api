@@ -1,5 +1,5 @@
 class ApiController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => :request_token
 
   def bars
     bars = current_user.bars
@@ -40,6 +40,17 @@ class ApiController < ApplicationController
     respond_to do |format|
       format.json { render json: current_user }
       format.xml { render xml: current_user }
+    end
+  end
+
+  def request_token
+    user = User.first
+    token = user.authentication_token
+    #find of create user
+
+    respond_to do |format|
+      format.json { render json: token }
+      format.xml { render xml: token }
     end
   end
 end
