@@ -45,12 +45,11 @@ class ApiController < ApplicationController
 
   def request_token
     user = User.first
-    token = user.authentication_token
     #find of create user
 
     respond_to do |format|
-      format.json { render json: token }
-      format.xml { render xml: token }
+      format.json { render json: user }
+      format.xml { render xml: user }
     end
   end
 end
