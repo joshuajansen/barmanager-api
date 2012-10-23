@@ -44,7 +44,7 @@ class ApiController < ApplicationController
   end
 
   def request_token
-    uid = request.header['X-BARMANAGER-UID']
+    uid = params[:uid]
     if !uid
       user = "uid not found"
     else
@@ -58,7 +58,7 @@ class ApiController < ApplicationController
             :name => params[:name],
             :provider => "facebook",
             :uid => uid,
-            :email => parmas[:email],
+            :email => params[:email],
             :password => Devise.friendly_token[0,20]
           )
         end
