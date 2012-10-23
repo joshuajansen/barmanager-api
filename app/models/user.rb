@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
   has_many :bars
   has_many :bank_transactions
 
+  validates :name, :presence => true
+  validates :email, :presence => true
+
   after_create :add_own_money
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  
