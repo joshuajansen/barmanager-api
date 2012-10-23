@@ -1,6 +1,16 @@
 class ApiController < ApplicationController
+  prepend_before_filter :get_auth_token
   before_filter :authenticate_user!, :except => :request_token
 
+  private
+  def get_auth_token
+    logger.debug request.headers["X-BARMANAGER-AUTH-TOKEN"].inspect
+    if !params[:auth_token] && request.headers["X-BARMANAGER-AUTH-TOKEN"]
+      params[:auth_token] = request.headers["X-BARMANAGER-AUTH-TOKEN"]
+    end
+  end
+
+  public
   def bars
     bars = current_user.bars
 
@@ -63,11 +73,14 @@ class ApiController < ApplicationController
           )
         end
       end
+
+      tmp_user = {}
+      tmp_user[:user] = { :name => user.name, :email => user.email, :authentication_token => user.authentication_token }
     end
 
     respond_to do |format|
-      format.json { render json: user }
-      format.xml { render xml: user }
+      format.json { render json: tmp_user }
+      format.xml { render xml: tmp_user }
     end
   end
 end
