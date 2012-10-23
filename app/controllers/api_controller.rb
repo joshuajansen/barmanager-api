@@ -44,13 +44,30 @@ class ApiController < ApplicationController
   end
 
   def request_token
-    user = User.first
-    token = user.authentication_token
-    #find of create user
+    uid = request.header['X-BARMANAGER-UID']
+    if !uid
+      user = "uid not found"
+    else
+      user = User.find_by_uid(uid)
+
+      if user.nil?
+        if !params[:email]
+          user = "email not found"
+        else
+          user = User.create(
+            :name => params[:name],
+            :provider => "facebook",
+            :uid => uid,
+            :email => parmas[:email],
+            :password Devise.friendly_token[0,20]
+          )
+        end
+      end
+    end
 
     respond_to do |format|
-      format.json { render json: token }
-      format.xml { render xml: token }
+      format.json { render json: user }
+      format.xml { render xml: user }
     end
   end
 end
