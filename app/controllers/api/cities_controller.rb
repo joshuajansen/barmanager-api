@@ -4,24 +4,35 @@ class Api::CitiesController < Api::ApiController
     lat = params[:latitude].to_f
     lng = params[:longitude].to_f
 
-    bar_city = Geocoder.search("#{lat},#{lng}").first
+    geo_city = Geocoder.search("#{lat},#{lng}").first
 
-    unless bar_city.nil?
-      city = City.find_by_name(bar_city.city)
+    unless geo_city.nil?
+      city = City.find_by_name(geo_city.city)
 
       if city.nil?
-        city = City.new(:name => bar_city.city)
+        city = City.create!(:name => geo_city.city, :country => geo_city.country_code)
+      end
+    end
+    unless city.nil?
+      city.user_bars = []
+      city.other_bars = []
+      city.bars.each do |bar|
+        if bar.is_owned_by_user?(current_user)
+          city.user_bars << bar
+        else
+          city.other_bars << bar
+        end
       end
     end
 
     respond_to do |format|
-      if bar_city.nil?
+      if city.nil?
         error = { "error" => "Geen stad gevonden op je huidige locatie." }
         format.json { render json: error }
         format.xml { render xml: error }
       else
-        format.json { render json: city.to_json(:include => :bars) }
-        format.xml { render xml: city.to_xml(:include => :bars) }
+        format.json { render json: city.to_json(:include => [:user_bars, :other_bars]) }
+        format.xml { render xml: city.to_xml(:include => [:user_bars, :other_bars]) }
       end
     end
   end
