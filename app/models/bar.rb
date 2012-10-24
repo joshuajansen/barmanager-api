@@ -1,6 +1,7 @@
 class Bar < ActiveRecord::Base
   attr_accessible :name
-
+  attr_accessor :current_user
+  
   belongs_to :user
   belongs_to :city
 
@@ -23,13 +24,18 @@ class Bar < ActiveRecord::Base
   
   before_validation :find_or_create_city
 
+  def is_owned_by_user?(user=nil)
+    user ||= current_user
+    return self.user == user
+  end
+
   def find_or_create_city
     bar_city = Geocoder.search("#{self.latitude},#{self.longitude}")[0]
     city = City.find_by_name(bar_city.city)
     if city
       self.city = city
     else
-      self.city = City.create!(:name => bar_city.city, :country => bar_city.country_code, :population => rand(4500..7500))
+      self.city = City.create!(:name => bar_city.city, :country => bar_city.country_code)
     end
   end
 
