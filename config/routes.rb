@@ -11,6 +11,7 @@ Barmanager::Application.routes.draw do
   namespace :api do
     resources :bars
     resources :cities
+    resources :bank_transactions
     resources :users do
       collection do
         post 'request_token'

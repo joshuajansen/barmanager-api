@@ -1,18 +1,24 @@
 class Api::CitiesController < Api::ApiController
 
   def index
-    lat = params[:latitude].to_f
-    lng = params[:longitude].to_f
 
-    geo_city = Geocoder.search("#{lat},#{lng}").first
+    if params[:id]
+      city = City.find(params[:id])
+    elsif params[:latitude] and params[:longitude]
+      lat = params[:latitude].to_f
+      lng = params[:longitude].to_f
 
-    unless geo_city.nil?
-      city = City.find_by_name(geo_city.city)
+      geo_city = Geocoder.search("#{lat},#{lng}").first
 
-      if city.nil?
-        city = City.create!(:name => geo_city.city, :country => geo_city.country_code)
+      unless geo_city.nil?
+        city = City.find_by_name(geo_city.city)
+
+        if city.nil?
+          city = City.create!(:name => geo_city.city, :country => geo_city.country_code)
+        end
       end
     end
+
     unless city.nil?
       city.user_bars = []
       city.other_bars = []

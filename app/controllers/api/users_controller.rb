@@ -34,5 +34,4 @@ class Api::UsersController < Api::ApiController
       format.xml { render xml: tmp_user }
     end
   end
-
 end
