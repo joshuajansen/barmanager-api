@@ -9,4 +9,20 @@ class Api::BarsController < Api::ApiController
     end
   end
 
+  def create
+    bar = Bar.new()
+    bar.user = current_user 
+    bar.latitude = params[:latitude]
+    bar.longitude = params[:longitude]
+    bar.city = City.find(params[:city_id])
+
+    respond_to do |format|
+      if bar.save
+        format.json { render json: bar, status: :created }
+      else
+        format.json { render json: bar.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 end
