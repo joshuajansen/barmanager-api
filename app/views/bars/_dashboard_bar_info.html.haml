@@ -1,0 +1,40 @@
+.dashboard_bar{:class => ( (index+1)%3 == 0 ? 'last' : '')}
+  .bar_ribbon
+    .bar_name=bar.name
+  .bar_stats
+    %table.table.table-striped
+      %tbody
+        %tr
+          %td
+            %i.icon-map-marker
+            Locatie
+          %td=bar.city.name
+        %tr
+          %td
+            %i.icon-heart
+            Populariteit
+          %td="#{bar.city_popularity.round(0)}%"
+        %tr
+          %td
+            %i.icon-money
+            Laatste omzet
+          %td= number_to_currency bar.revenue_growth
+  .bar_expansions
+    - bar.expansions.each do |expansion|
+      %div
+        %i.icon-glass
+        = expansion.name
+  .bar_features
+    - bar.features.each do |feature|
+      %div
+        %i.icon-star
+        = feature.name
+  .bar_enlargements
+    - bar.enlargements.each do |enlargement|
+      %div
+        %i.icon-wrench
+        = enlargement.name
+
+  .bar_link  
+    = link_to bar_path(bar) do
+      .btn.btn-large Bar bezoeken

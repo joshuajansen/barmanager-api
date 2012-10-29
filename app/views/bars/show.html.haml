@@ -30,6 +30,8 @@
             Ja
           - else 
             Nee
+.lead
+  = link_to "Features toevoegen?", bar_features_path(@bar), :class => "btn btn-success"
 
 %h2 Expansions:
 %table.table
@@ -40,3 +42,17 @@
     - @bar.expansions.each do |expansion|
       %tr
         %td=expansion.name
+.lead
+  = link_to "Expansions toevoegen?", bar_expansions_path(@bar), :class => "btn btn-success"
+
+%h2 Uitbreideingen:
+%table.table
+  %thead
+    %tr
+      %th Uitbreiding
+  %tbody
+    - @bar.enlargements.each do |enlargement|
+      %tr
+        %td=enlargement.name
+.lead
+  = link_to "Uitbreiding toevoegen?", bar_enlargements_path(@bar), :class => "btn btn-success"

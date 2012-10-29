@@ -1,0 +1,27 @@
+%h1 Bar uitbreidingen
+
+%table.table.table-striped.expansions
+  %thead
+    %tr
+      %th Naam
+      %th Omschrijving
+      %th Investering
+      %th Omzet
+      %th Winstmarge
+      %th Populariteit
+      %th Duurzaamheid
+  %tbody
+    - @expansions.each do |expansion|
+      %tr{:"data-expansion-id" => expansion.id}
+        %td=expansion.name
+        %td=expansion.description
+        %td=number_to_currency expansion.investment
+        %td=number_to_currency expansion.revenue
+        %td="#{expansion.profit}%"
+        %td=expansion.popularity
+        %td
+          - if !expansion.max_use.nil? and expansion.max_use > 0
+            ="Uitbreiding kan #{expansion.max_use} keer gebruikt worden."
+          - else
+            ="Onbeperkt"
+        %td.status=render :partial => "expansion_status", :locals => {:bar => @bar, :expansion => expansion}

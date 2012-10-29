@@ -3,4 +3,10 @@ class BarEnlargement < ActiveRecord::Base
 
   belongs_to :bar
   belongs_to :enlargement
+
+  after_create :charge
+
+  def charge
+    BankTransaction.create!(:bar_id => self.bar.id, :user_id => self.bar.user_id, :description => "Geinvesteerd in #{self.enlargement.name}", :amount => -self.enlargement.investment)
+  end
 end

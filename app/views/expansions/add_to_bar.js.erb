@@ -1,0 +1,1 @@
+$('table.expansions tr[data-expansion-id=<%=@expansion.id%>] td.status').html('<%=escape_javascript(render :partial => "expansion_status", :locals => {:bar => @bar, :expansion => @expansion})%>');

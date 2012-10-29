@@ -1,10 +1,36 @@
 Barmanager::Application.routes.draw do
+  get "enlargements/index"
+
+  get "features/index"
+
+  get "expansions/index"
+
+  root :to => 'welcome#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
 
   match 'sells/process_sells' => "sells#process_sells"
 
-  resources :bars
+  resources :bars do
+    resources :expansions do
+      member do
+        get 'add_to_bar'
+      end
+    end
+    
+    resources :features do
+      member do
+        get 'add_to_bar'
+      end
+    end
+    
+    resources :enlargements do
+      member do
+        get 'add_to_bar'
+      end
+    end
+  end
+
   resources :sells
   resources :bank_transactions
 
@@ -68,7 +94,6 @@ Barmanager::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 

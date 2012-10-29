@@ -1,3 +1,57 @@
+@import bourbon
+
+.dashboard_bar
+  @include inline-block
+  @include border-radius(5px)
+  @include radial-gradient(#f1f1f1, #fff)
+  @include box-shadow(2px 2px 10px 0px #eee)
+  border: 1px solid #eee
+  vertical-align: top
+  margin-left: 10px
+  margin-right: 45px
+  margin-bottom: 40px
+  padding: 80px 20px 20px 20px
+  width: 280px
+  position: relative
+  &.last
+    margin-right: 0px
+  .bar_ribbon
+    position: absolute
+    background: #c04816
+    color: #fff
+    text-align: center
+    font-family: 'Cinzel Decorative', cursive
+    font-size: 25px
+    padding: 10px
+    z-index: 1
+    width: 340px
+    height: 20px
+    top: 10px
+    left: -20px
+    @include border-radius(5px 5px 0px 0px)
+    .bar_name:before, .bar_name:after
+      content: ""
+      position: absolute
+      display: block
+      border-style: solid
+      border-color: #e8e8e8 transparent transparent transparent
+      bottom: -20px
+      z-index: 1
+    .bar_name:before
+      left: 0
+      border-width: 20px 0 0 20px
+    .bar_name:after
+      right: 0
+      border-width: 20px 20px 0 0
+  .bar_expansions, .bar_features
+    font-size: 16px
+    .icon-glass, .icon-star
+      font-size: 20px
+      color: #e0d856
+  .bar_link
+    margin-top: 20px
+    text-align: center
+    width: 250px
 .city_info
   .loading
     

@@ -1,0 +1,19 @@
+%h1 Bar Specials!
+
+%table.table.table-striped.features
+  %thead
+    %tr
+      %th Naam
+      %th Omschrijving
+      %th Investering
+      %th Populariteit
+      %th Duurzaamheid
+  %tbody
+    - @features.each do |feature|
+      %tr{:"data-feature-id" => feature.id}
+        %td=feature.name
+        %td=feature.description
+        %td=number_to_currency feature.investment
+        %td=feature.popularity
+        %td=feature.duration
+        %td.status=render :partial => "feature_status", :locals => {:bar => @bar, :feature => feature}

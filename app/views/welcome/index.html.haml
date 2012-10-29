@@ -1,9 +1,6 @@
-- if current_user && current_user.bars.nil?
-  .welcome_new_bar
-    %p
-      <iframe width="640" height="480" src="http://www.youtube.com/embed/C8t3AS36O-k?rel=0" frameborder="0" allowfullscreen></iframe>  
-    .lead
-      The name of our bar, will be:
-      = form_for @bar do |f|
-        = f.text_field :name
-        = f.submit "Let's go!", :class => "open_a_bar btn btn-large btn-info"
+- if current_user
+  - if current_user.bars
+    %h1="Welkom Barmanager!"
+    .lead Hieronder zie je je huidige bars, klik op bar bezoeken om te zien hoe je bar het doet.
+    - current_user.bars.each_with_index do |bar, index|
+      = render :partial => "bars/dashboard_bar_info", :locals => { :bar => bar, :index => index }

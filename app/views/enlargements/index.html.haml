@@ -1,0 +1,17 @@
+%h1 Bar Uitbreidingen!
+
+%table.table.table-striped.enlargements
+  %thead
+    %tr
+      %th Naam
+      %th Omschrijving
+      %th Investering
+      %th Capaciteit
+  %tbody
+    - @enlargements.each do |enlargement|
+      %tr{:"data-enlargement-id" => enlargement.id}
+        %td=enlargement.name
+        %td=enlargement.description
+        %td=number_to_currency enlargement.investment
+        %td="+ #{enlargement.capacity} personen"
+        %td.status=render :partial => "enlargement_status", :locals => {:bar => @bar, :enlargement => enlargement}

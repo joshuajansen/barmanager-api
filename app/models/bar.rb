@@ -74,4 +74,14 @@ class Bar < ActiveRecord::Base
   def capacity
     read_attribute(:capacity) + self.enlargements.sum(&:capacity)
   end
+
+  def revenue_growth
+    if self.bank_transactions.count > 1
+      self.bank_transactions.where("created_at BETWEEN ? and ?", Time.now - 1.day, Time.now).sum(&:amount)
+    elsif self.bank_transactions.count == 1
+      100
+    else
+      0
+    end
+  end
 end
