@@ -27,7 +27,6 @@ class Api::BarsController < Api::ApiController
     bar.user = current_user 
     bar.latitude = params[:latitude]
     bar.longitude = params[:longitude]
-    bar.city = City.find(params[:city_id])
 
     respond_to do |format|
       if bar.save
