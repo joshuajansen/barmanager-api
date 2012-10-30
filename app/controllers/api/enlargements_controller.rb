@@ -11,7 +11,7 @@ class Api::EnlargementsController < Api::ApiController
 
     respond_to do |format|
       if bar.current_enlargements.empty? and bar.available_enlargements.empty?
-        format.json { render json: { "error" => { "message" => "Er is een fout opgetreden bij het ophalen van de bar enlargements." } } }
+        format.json { render json: { "error" => "Er is een fout opgetreden bij het ophalen van de bar enlargements." }, :status => 422 }
       else
         format.json { render json: bar.to_json(:include => [:current_enlargements, :available_enlargements]) }
       end
@@ -38,7 +38,7 @@ class Api::EnlargementsController < Api::ApiController
 
     respond_to do |format|
       if error == true
-        format.json { render json: { "error" => { "message" => "Bar enlargement niet aangemaakt." } } }
+        format.json { render json: { "error" => "Bar enlargement niet aangemaakt." }, :status => 422 }
       else
         format.json { render json: bar_enlargement.to_json }
       end

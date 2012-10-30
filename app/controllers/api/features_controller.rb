@@ -11,7 +11,7 @@ class Api::FeaturesController < Api::ApiController
 
     respond_to do |format|
       if bar.current_features.empty? and bar.available_features.empty?
-        format.json { render json: { "error" => { "message" => "Er is een fout opgetreden bij het ophalen van de bar features." } } }
+        format.json { render json: { "error" => "Er is een fout opgetreden bij het ophalen van de bar features." }, :status => 422 }
       else
         format.json { render json: bar.to_json(:include => [:current_features, :available_features]) }
       end
@@ -38,7 +38,7 @@ class Api::FeaturesController < Api::ApiController
 
     respond_to do |format|
       if error == true
-        format.json { render json: { "error" => { "message" => "Bar feature niet aangemaakt." } } }
+        format.json { render json: { "error" => "Bar feature niet aangemaakt." }, :status => 422 }
       else
         format.json { render json: bar_feature.to_json }
       end
