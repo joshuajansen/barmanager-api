@@ -1,5 +1,5 @@
 class Bar < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :capacity
   attr_accessor :current_user
   attr_accessor :current_features
   attr_accessor :available_features

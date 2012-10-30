@@ -41,7 +41,7 @@ class Api::FeaturesController < Api::ApiController
         format.json { render json: { "error" => "Bar feature niet aangemaakt." }, :status => 422 }
       else
         all_features = Feature.all
-        bar.current_features = bar.feature
+        bar.current_features = bar.features
         bar.available_features = all_features - bar.features
 
         format.json { render json: bar.to_json(:include => [:current_features, :available_features]) }
