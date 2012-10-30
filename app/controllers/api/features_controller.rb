@@ -19,14 +19,14 @@ class Api::FeaturesController < Api::ApiController
   end
 
   def add_to_bar
-    bar = current_user.bars.where(:id => params[:bar_id])
+    bar = current_user.bars.where(:id => params[:bar_id]).first
     feature = Feature.find(params[:id])
 
-    if bar.empty? or feature.nil?
+    if bar.nil? or feature.nil?
       error = true
     else
       bar_feature = BarFeature.new
-      bar_feature.bar = bar.first
+      bar_feature.bar = bar
       bar_feature.feature = feature
       
       if bar_feature.save
@@ -40,7 +40,11 @@ class Api::FeaturesController < Api::ApiController
       if error == true
         format.json { render json: { "error" => "Bar feature niet aangemaakt." }, :status => 422 }
       else
-        format.json { render json: bar_feature.to_json }
+        all_features = Feature.all
+        bar.current_features = bar.feature
+        bar.available_features = all_features - bar.features
+
+        format.json { render json: bar.to_json(:include => [:current_features, :available_features]) }
       end
     end
   end

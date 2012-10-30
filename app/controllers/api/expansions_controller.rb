@@ -19,14 +19,14 @@ class Api::ExpansionsController < Api::ApiController
   end
 
   def add_to_bar
-    bar = current_user.bars.where(:id => params[:bar_id])
+    bar = current_user.bars.where(:id => params[:bar_id]).first
     expansion = Expansion.find(params[:id])
 
-    if bar.empty? or expansion.nil?
+    if bar.nil? or expansion.nil?
       error = true
     else
       bar_expansion = BarExpansion.new
-      bar_expansion.bar = bar.first
+      bar_expansion.bar = bar
       bar_expansion.expansion = expansion
       
       if bar_expansion.save
@@ -40,7 +40,11 @@ class Api::ExpansionsController < Api::ApiController
       if error == true
         format.json { render json: { "error" => "Bar expansion niet aangemaakt." }, :status => 422 }
       else
-        format.json { render json: bar_expansion.to_json }
+        all_expansions = Expansion.all
+        bar.current_expansions = bar.expansion
+        bar.available_expansions = all_expansions - bar.expansion
+
+        format.json { render json: bar.to_json(:include => [:current_expansions, :available_expansions]) }
       end
     end
   end

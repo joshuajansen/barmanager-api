@@ -19,14 +19,14 @@ class Api::EnlargementsController < Api::ApiController
   end
 
   def add_to_bar
-    bar = current_user.bars.where(:id => params[:bar_id])
+    bar = current_user.bars.where(:id => params[:bar_id]).first
     enlargement = Enlargement.find(params[:id])
 
-    if bar.empty? or enlargement.nil?
+    if bar.nil? or enlargement.nil?
       error = true
     else
       bar_enlargement = BarEnlargement.new
-      bar_enlargement.bar = bar.first
+      bar_enlargement.bar = bar
       bar_enlargement.enlargement = enlargement
       
       if bar_enlargement.save
@@ -40,7 +40,11 @@ class Api::EnlargementsController < Api::ApiController
       if error == true
         format.json { render json: { "error" => "Bar enlargement niet aangemaakt." }, :status => 422 }
       else
-        format.json { render json: bar_enlargement.to_json }
+        all_enlargements = Enlargement.all
+        bar.current_enlargements = bar.enlargements
+        bar.available_enlargements = all_enlargements - bar.enlargements
+
+        format.json { render json: bar.to_json(:include => [:current_enlargements, :available_enlargements]) }
       end
     end
   end
