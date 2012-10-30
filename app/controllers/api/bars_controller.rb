@@ -9,6 +9,18 @@ class Api::BarsController < Api::ApiController
     end
   end
 
+  def show
+    bar = current_user.bars.where(:id => params[:id]).first
+
+    respond_to do |format|
+      if bar.nil?
+        format.json { render json: { "error" => { "message" => "Bar niet gevonden." } } }
+      else
+        format.json { render json: bar.to_json(:include => :city) }
+      end
+    end
+  end
+
   def create
     bar = Bar.new()
     bar.name = params[:name]

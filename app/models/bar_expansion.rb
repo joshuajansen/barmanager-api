@@ -5,6 +5,8 @@ class BarExpansion < ActiveRecord::Base
   belongs_to :expansion
   after_create :charge
 
+  validates :expansion_id, :presence => true, :uniqueness => {:scope => :bar_id}
+
   def charge
     BankTransaction.create!(:bar_id => self.bar.id, :user_id => self.bar.user_id, :description => "Geinvesteerd in #{self.expansion.name}", :amount => -self.expansion.investment)
   end
