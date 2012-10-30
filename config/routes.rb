@@ -35,7 +35,28 @@ Barmanager::Application.routes.draw do
   resources :bank_transactions
 
   namespace :api do
-    resources :bars
+
+
+    resources :bars do
+      resources :expansions do
+        member do
+          get 'add_to_bar'
+        end
+      end
+      
+      resources :features do
+        member do
+          get 'add_to_bar'
+        end
+      end
+      
+      resources :enlargements do
+        member do
+          get 'add_to_bar'
+        end
+      end
+    end
+
     resources :cities
     resources :bank_transactions
     resources :users do

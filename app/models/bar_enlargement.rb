@@ -6,6 +6,8 @@ class BarEnlargement < ActiveRecord::Base
 
   after_create :charge
 
+  validates :enlargement_id, :presence => true, :uniqueness => {:scope => :bar_id}
+
   def charge
     BankTransaction.create!(:bar_id => self.bar.id, :user_id => self.bar.user_id, :description => "Geinvesteerd in #{self.enlargement.name}", :amount => -self.enlargement.investment)
   end

@@ -26,13 +26,20 @@ class Api::UsersController < Api::ApiController
         if !params[:email]
           user = "email not found"
         else
-          user = User.create(
-            :name => params[:name],
-            :provider => "facebook",
-            :uid => uid,
-            :email => params[:email],
-            :password => Devise.friendly_token[0,20]
-          )
+          user = User.find_by_email(params[:email])
+          if user.nil?
+            user = User.create!(
+              :name => params[:name],
+              :provider => "facebook",
+              :uid => uid,
+              :email => params[:email],
+              :password => Devise.friendly_token[0,20]
+            )
+          else
+            user.provider = "facebook"
+            user.uid = params[:uid]
+            user.save
+          end
         end
       end
 
