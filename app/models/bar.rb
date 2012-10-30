@@ -1,6 +1,13 @@
 class Bar < ActiveRecord::Base
   attr_accessible :name
   attr_accessor :current_user
+  attr_accessor :current_features
+  attr_accessor :available_features
+  attr_accessor :current_expansions
+  attr_accessor :available_expansions
+  attr_accessor :current_enlargements
+  attr_accessor :available_enlargements
+
   
   belongs_to :user
   belongs_to :city
