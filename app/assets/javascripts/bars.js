@@ -1,25 +1,18 @@
 $(document).ready(function() {
-  if($('.new_bar').length){
-    checkLocation();
-
-    $('.refresh_location').on('click', function(){
-     checkLocation();
-    });
-  }
+  checkLocation();
 });
 
 function checkLocation(){
-  window.watchId = navigator.geolocation.watchPosition(openBar, positionError, {
-    maximumAge: 6000,
-    timeout: 1000
+  window.watchId = navigator.geolocation.watchPosition(updateLocation, positionError, {
+    maximumAge: 1000,
+    timeout: 2000
   });
 }
 
-function openBar(position) {
-  navigator.geolocation.clearWatch(window.watchId);
+function updateLocation(position) {
   var coords = position.coords;
   $.ajax({
-    url: "new.js",
+    url: "/update_location.js",
     type: 'get',
     data: {
       lat: coords.latitude,

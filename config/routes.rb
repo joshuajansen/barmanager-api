@@ -1,16 +1,10 @@
 Barmanager::Application.routes.draw do
-  get "enlargements/index"
-
-  get "features/index"
-
-  get "expansions/index"
-
   root :to => 'welcome#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }, :path_names => { :sign_in => 'login', :sign_out => 'logout'}
 
   match 'sells/process_sells' => "sells#process_sells"
-
+  match 'update_location' => "welcome#update_location"
   resources :bars do
     resources :expansions do
       member do
@@ -35,8 +29,6 @@ Barmanager::Application.routes.draw do
   resources :bank_transactions
 
   namespace :api do
-
-
     resources :bars do
       resources :expansions do
         member do

@@ -21,10 +21,6 @@ class BarsController < ApplicationController
 
   def new
     @bar = Bar.new
-    @location = Geocoder.search("#{params[:lat]},#{params[:lng]}")
-
-    session[:latitude] = params[:lat]
-    session[:longitude] = params[:lng]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -33,15 +29,11 @@ class BarsController < ApplicationController
     end
   end
 
-  def edit
-    @bar = Bar.find(params[:id])
-  end
-
   def create
     @bar = Bar.new(params[:bar])
     @bar.user = current_user 
-    @bar.latitude = session[:latitude]
-    @bar.longitude = session[:longitude]
+    @bar.latitude = session[:location][:latitude]
+    @bar.longitude = session[:location][:longitude]
 
     respond_to do |format|
       if @bar.save
@@ -56,30 +48,6 @@ class BarsController < ApplicationController
         format.json { render json: @bar.errors, status: :unprocessable_entity }
         format.js
       end
-    end
-  end
-
-  def update
-    @bar = Bar.find(params[:id])
-
-    respond_to do |format|
-      if @bar.update_attributes(params[:bar])
-        format.html { redirect_to @bar, notice: 'Bar was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @bar.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def destroy
-    @bar = Bar.find(params[:id])
-    @bar.destroy
-
-    respond_to do |format|
-      format.html { redirect_to bars_url }
-      format.json { head :no_content }
     end
   end
 end

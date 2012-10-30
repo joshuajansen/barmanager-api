@@ -12,4 +12,13 @@ class City < ActiveRecord::Base
   def set_random_population
     self.population = rand(4500..7500)
   end
+
+  def find_or_create_city(lat, lng)
+    location = Geocoder.search("#{lat},#{lng}")[0]
+    city = City.find_by_name(location.city)
+    if city.nil?
+      city = City.create!(:name => location.city, :country => location.country_code)
+    end
+    return city
+  end
 end

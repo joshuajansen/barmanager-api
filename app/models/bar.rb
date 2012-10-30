@@ -7,7 +7,6 @@ class Bar < ActiveRecord::Base
   attr_accessor :available_expansions
   attr_accessor :current_enlargements
   attr_accessor :available_enlargements
-
   
   belongs_to :user
   belongs_to :city
@@ -36,8 +35,11 @@ class Bar < ActiveRecord::Base
     return self.user == user
   end
 
-  def find_or_create_city
-    bar_city = Geocoder.search("#{self.latitude},#{self.longitude}")[0]
+  def find_or_create_city(lat=nil, lng=nil)
+    lat ||= self.latitude
+    lng ||= self.longitude
+
+    bar_city = Geocoder.search("#{lat},#{lng}")[0]
     city = City.find_by_name(bar_city.city)
     if city
       self.city = city

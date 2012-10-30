@@ -1,5 +1,6 @@
 class EnlargementsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :verify_location
 
   def index
     @bar = Bar.find(params[:bar_id])
