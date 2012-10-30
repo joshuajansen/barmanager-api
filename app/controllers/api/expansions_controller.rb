@@ -1,27 +1,19 @@
 class Api::ExpansionsController < Api::ApiController
 
   def index
-    bar = current_user.bars.where(:id => params[:bar_id])
-    expansions = {:current_expansions => [], :available_expansions => []}
+    bar = current_user.bars.where(:id => params[:bar_id]).first
 
-    if !bar.empty?
-      bar_expansions = bar.first.expansions
+    if !bar.nil?
       all_expansions = Expansion.all
-
-      all_expansions.each do |expansion|
-        if bar_expansions.include?(expansion)
-          expansions[:current_expansions] << expansion
-        else
-          expansions[:available_expansions] << expansion
-        end
-      end
+      bar.current_expansions = bar.expansions
+      bar.available_expansions = all_expansions - bar.expansions
     end
 
     respond_to do |format|
-      if expansions[:current_expansions].empty? and expansions[:available_expansions].empty?
+      if bar.current_expansions.empty? and bar.available_expansions.empty?
         format.json { render json: { "error" => { "message" => "Er is een fout opgetreden bij het ophalen van de bar expansions." } } }
       else
-        format.json { render json: expansions.to_json }
+        format.json { render json: bar.to_json(:include => [:current_expansions, :available_expansions]) }
       end
     end
   end

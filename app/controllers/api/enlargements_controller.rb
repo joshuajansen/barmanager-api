@@ -1,27 +1,19 @@
 class Api::EnlargementsController < Api::ApiController
 
   def index
-    bar = current_user.bars.where(:id => params[:bar_id])
-    enlargements = {:current_enlargements => [], :available_enlargements => []}
+    bar = current_user.bars.where(:id => params[:bar_id]).first
 
-    if !bar.empty?
-      bar_enlargements = bar.first.enlargements
+    if !bar.nil?
       all_enlargements = Enlargement.all
-
-      all_enlargements.each do |enlargement|
-        if bar_enlargements.include?(enlargement)
-          enlargements[:current_enlargements] << enlargement
-        else
-          enlargements[:available_enlargements] << enlargement
-        end
-      end
+      bar.current_enlargements = bar.enlargements
+      bar.available_enlargements = all_enlargements - bar.enlargements
     end
 
     respond_to do |format|
-      if enlargements[:current_enlargements].empty? and enlargements[:available_enlargements].empty?
+      if bar.current_enlargements.empty? and bar.available_enlargements.empty?
         format.json { render json: { "error" => { "message" => "Er is een fout opgetreden bij het ophalen van de bar enlargements." } } }
       else
-        format.json { render json: enlargements.to_json }
+        format.json { render json: bar.to_json(:include => [:current_enlargements, :available_enlargements]) }
       end
     end
   end

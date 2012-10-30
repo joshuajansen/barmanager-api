@@ -1,27 +1,19 @@
 class Api::FeaturesController < Api::ApiController
 
   def index
-    bar = current_user.bars.where(:id => params[:bar_id])
-    features = {:current_features => [], :available_features => []}
+    bar = current_user.bars.where(:id => params[:bar_id]).first
 
-    if !bar.empty?
-      bar_features = bar.first.features
+    if !bar.nil?
       all_features = Feature.all
-
-      all_features.each do |feature|
-        if bar_features.include?(feature)
-          features[:current_features] << feature
-        else
-          features[:available_features] << feature
-        end
-      end
+      bar.current_features = bar.features
+      bar.available_features = all_features - bar.features
     end
 
     respond_to do |format|
-      if features[:current_features].empty? and features[:available_features].empty?
+      if bar.current_features.empty? and bar.available_features.empty?
         format.json { render json: { "error" => { "message" => "Er is een fout opgetreden bij het ophalen van de bar features." } } }
       else
-        format.json { render json: features.to_json }
+        format.json { render json: bar.to_json(:include => [:current_features, :available_features]) }
       end
     end
   end
