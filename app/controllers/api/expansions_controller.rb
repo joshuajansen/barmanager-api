@@ -19,7 +19,7 @@ class Api::ExpansionsController < Api::ApiController
 
     respond_to do |format|
       if expansions[:current_expansions].empty? and expansions[:available_expansions].empty?
-        format.json { render json: { "error" => { "message" => "Er is een fout opgetreden bij het ophalen van de bar expansions." } } }
+        format.json { render json: { "error" => "Er is een fout opgetreden bij het ophalen van de bar expansions." }, :status => 422 }
       else
         format.json { render json: expansions.to_json }
       end
@@ -46,7 +46,7 @@ class Api::ExpansionsController < Api::ApiController
 
     respond_to do |format|
       if error == true
-        format.json { render json: { "error" => { "message" => "Bar expansion niet aangemaakt." } } }
+        format.json { render json: { "error" => "Bar expansion niet aangemaakt." }, :status => 422 }
       else
         format.json { render json: bar_expansion.to_json }
       end

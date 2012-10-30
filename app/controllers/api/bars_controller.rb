@@ -14,7 +14,7 @@ class Api::BarsController < Api::ApiController
 
     respond_to do |format|
       if bar.nil?
-        format.json { render json: { "error" => { "message" => "Bar niet gevonden." } } }
+        format.json { render json: { "error" => "Bar niet gevonden." }, :status => 422 }
       else
         format.json { render json: bar.to_json(:include => :city) }
       end
@@ -32,7 +32,7 @@ class Api::BarsController < Api::ApiController
       if bar.save
         format.json { render json: bar, status: :created }
       else
-        format.json { render json: bar.errors, status: :unprocessable_entity }
+        format.json { render json: { "error" => "Bar kon niet worden toegevoegd." }, status: :unprocessable_entity }
       end
     end
   end

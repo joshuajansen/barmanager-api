@@ -33,12 +33,10 @@ class Api::CitiesController < Api::ApiController
 
     respond_to do |format|
       if city.nil?
-        error = { "error" => { "message" => "Geen stad gevonden op je huidige locatie." } }
-        format.json { render json: error }
-        format.xml { render xml: error }
+        error = { "error" => "Geen stad gevonden op je huidige locatie." }
+        format.json { render json: error, :status => 422 }
       else
         format.json { render json: city.to_json(:include => [:user_bars, :other_bars]) }
-        format.xml { render xml: city.to_xml(:include => [:user_bars, :other_bars]) }
       end
     end
   end
