@@ -11,6 +11,7 @@ class Api::BarsController < Api::ApiController
 
   def create
     bar = Bar.new()
+    bar.name = params[:name]
     bar.user = current_user 
     bar.latitude = params[:latitude]
     bar.longitude = params[:longitude]
