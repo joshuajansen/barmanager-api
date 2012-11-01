@@ -3,12 +3,6 @@ class Api::FeaturesController < Api::ApiController
   def index
     bar = current_user.bars.where(:id => params[:bar_id]).first
 
-    if !bar.nil?
-      all_features = Feature.all
-      bar.current_features = bar.features
-      bar.available_features = all_features - bar.features
-    end
-
     respond_to do |format|
       if bar.current_features.empty? and bar.available_features.empty?
         format.json { render json: { "error" => "Er is een fout opgetreden bij het ophalen van de bar features." }, :status => 422 }

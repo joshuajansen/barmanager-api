@@ -3,12 +3,6 @@ class Api::ExpansionsController < Api::ApiController
   def index
     bar = current_user.bars.where(:id => params[:bar_id]).first
 
-    if !bar.nil?
-      all_expansions = Expansion.all
-      bar.current_expansions = bar.expansions
-      bar.available_expansions = all_expansions - bar.expansions
-    end
-
     respond_to do |format|
       if bar.current_expansions.empty? and bar.available_expansions.empty?
         format.json { render json: { "error" => "Er is een fout opgetreden bij het ophalen van de bar expansions." }, :status => 422 }

@@ -1,12 +1,6 @@
 class Bar < ActiveRecord::Base
   attr_accessible :name, :capacity
   attr_accessor :current_user
-  attr_accessor :current_features
-  attr_accessor :available_features
-  attr_accessor :current_expansions
-  attr_accessor :available_expansions
-  attr_accessor :current_enlargements
-  attr_accessor :available_enlargements
   
   belongs_to :user
   belongs_to :city
@@ -29,6 +23,30 @@ class Bar < ActiveRecord::Base
   validates_associated :city
   
   before_validation :find_or_create_city
+
+  def current_expansions
+    expansions
+  end
+
+  def available_expansions
+    Expansion.all - expansions
+  end
+
+  def current_features
+    features
+  end
+
+  def available_features
+    Feature.all - features
+  end
+
+  def current_enlargements
+    enlargements
+  end
+
+  def available_enlargements
+    Enlargement.all - enlargements
+  end
 
   def is_owned_by_user?(user=nil)
     user ||= current_user

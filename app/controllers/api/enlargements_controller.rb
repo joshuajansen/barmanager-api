@@ -3,12 +3,6 @@ class Api::EnlargementsController < Api::ApiController
   def index
     bar = current_user.bars.where(:id => params[:bar_id]).first
 
-    if !bar.nil?
-      all_enlargements = Enlargement.all
-      bar.current_enlargements = bar.enlargements
-      bar.available_enlargements = all_enlargements - bar.enlargements
-    end
-
     respond_to do |format|
       if bar.current_enlargements.empty? and bar.available_enlargements.empty?
         format.json { render json: { "error" => "Er is een fout opgetreden bij het ophalen van de bar enlargements." }, :status => 422 }
