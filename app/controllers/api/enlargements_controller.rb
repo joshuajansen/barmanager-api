@@ -34,10 +34,6 @@ class Api::EnlargementsController < Api::ApiController
       if error == true
         format.json { render json: { "error" => "Bar enlargement niet aangemaakt." }, :status => 422 }
       else
-        all_enlargements = Enlargement.all
-        bar.current_enlargements = bar.enlargements
-        bar.available_enlargements = all_enlargements - bar.enlargements
-
         format.json { render json: bar.to_json(:include => [:current_enlargements, :available_enlargements]) }
       end
     end

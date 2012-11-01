@@ -34,10 +34,6 @@ class Api::ExpansionsController < Api::ApiController
       if error == true
         format.json { render json: { "error" => "Bar expansion niet aangemaakt." }, :status => 422 }
       else
-        all_expansions = Expansion.all
-        bar.current_expansions = bar.expansion
-        bar.available_expansions = all_expansions - bar.expansion
-
         format.json { render json: bar.to_json(:include => [:current_expansions, :available_expansions]) }
       end
     end
