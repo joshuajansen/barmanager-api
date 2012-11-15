@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20121115144453) do
     t.integer  "capacity"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "icon"
   end
 
   create_table "expansions", :force => true do |t|
@@ -83,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20121115144453) do
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
     t.float    "consumption", :default => 0.1
+    t.string   "icon"
   end
 
   create_table "features", :force => true do |t|
