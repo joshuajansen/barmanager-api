@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121019111805) do
+ActiveRecord::Schema.define(:version => 20121115141721) do
 
   create_table "bank_transactions", :force => true do |t|
     t.integer  "user_id"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(:version => 20121019111805) do
     t.integer  "duration"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "icon"
   end
 
   create_table "sells", :force => true do |t|
@@ -106,8 +107,8 @@ ActiveRecord::Schema.define(:version => 20121019111805) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                      :null => false
-    t.string   "encrypted_password",                         :null => false
+    t.string   "email",                  :default => "",     :null => false
+    t.string   "encrypted_password",     :default => "",     :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
