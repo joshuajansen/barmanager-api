@@ -36,7 +36,7 @@ class Api::CitiesController < Api::ApiController
         error = { "error" => "Geen stad gevonden op je huidige locatie." }
         format.json { render json: error, :status => 422 }
       else
-        format.json { render json: city.to_json(:include => [:user_bars, :other_bars]) }
+        format.json { render json: city.to_json(:include => { :user_bars => {:methods => :popularity}, :other_bars => {:methods => :popularity}} ) }
       end
     end
   end
